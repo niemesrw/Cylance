@@ -1,0 +1,45 @@
+{
+  "name": "CylanceAnalyzer",
+  "version": "1.0",
+  "author": "ryan niemes",
+  "url": "https://github.com/TheHive-Project/Cortex-Analyzers",
+  "license": "AGPL-V3",
+  "description": "Given a SHA256, download the cylance sample from your tenant .",
+  "dataTypeList": ["hash"],
+  "command": "Cylance/CylanceAnalyzer.py",
+  "baseConfig": "Cylance",
+  "config": {
+    "service": "get"
+  },
+  "configurationItems": [
+    {
+      "name": "tid",
+      "description": "Cylance tenant",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "app_id",
+      "description": "Appid for Cylance",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "app_secret",
+      "description": "Secret for Cylance",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "polling_interval",
+      "description": "Define time interval between two requests attempts for the report",
+      "type": "number",
+      "multi": false,
+      "required": false,
+      "defaultValue": 60
+    }
+  ]
+}
