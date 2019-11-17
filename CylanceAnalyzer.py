@@ -19,10 +19,31 @@ class CylanceAnalyzer(Analyzer):
         if self.data_type == 'hash':
             data = self.get_param('data', None, 'Data is missing')
             myurl = self.API.get_threat_download_url(sha256=data)
-            print(myurl.data)
+            try:
+                print(myurl.data)
+                r = requests.get(myurl.data['url'], allow_redirects=True)
+                open('/tmp/sample', 'wb').write(r.content)
+                results = {
+                    'downloaded': 'true',
+                    'hash': data
+                    }
+            except:
+                self.error('hash does not exist in your tenant')
 
-            r = requests.get(myurl.data['url'], allow_redirects=True)
-            open('/tmp/sample', 'wb').write(r.content)
+        self.report(results)
+
+    def summary(self, raw):
+        taxonomies = []
+        level = "safe"
+        namespace = "Cylance"
+        predicate = "info"
+        value = "truth"
+        result = {
+                'hash': self.data,
+                'downloaded': true
+        }
+        taxonomies.append(self.build_taxonomy(level, namespace, predicate, value))
+        return {"taxonomies": taxonomies}
 
 if __name__ == '__main__':
     CylanceAnalyzer().run()
